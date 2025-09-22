@@ -1,0 +1,20 @@
+# Authentication tokens and credentials
+credentials.json
+token.json
+token_calendar.json
+info_of_sender.py
+replied_emails.json 
+# Environment variables
+agent
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+# VS Code settings
+.vscode/
+#pkl files
+spam_model.pkl
+vectorizer.pkl
+
