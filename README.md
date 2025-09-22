@@ -1,8 +1,8 @@
-📧 AI-Powered Email Agent
+# 📧 AI-Powered Email Agent
 
 An intelligent email assistant that automates inbox management, reply generation, and scheduling. Built to save time and enhance productivity, this agent integrates with Gmail and Google Calendar to give users a seamless communication experience.
 
-🚀 Features
+# 🚀 Features
 
 📩 Fetch Unread Emails – Pulls only the latest unread emails from your inbox.
 
@@ -28,7 +28,7 @@ An intelligent email assistant that automates inbox management, reply generation
 
 
 
-⚙️ Setup & Installation
+# ⚙️ Setup & Installation
 
 Clone the Repository
 
@@ -36,7 +36,7 @@ git clone https://github.com/sahilarora-1/Gmail_Management_Agent.git
 cd Gmail_Management_Agent
 
 
-Install Dependencies
+# Install Dependencies
 
 pip install -r requirements.txt
 
@@ -47,11 +47,11 @@ Enable the Gmail API and Google Calendar API from Google Cloud Console
 
 Download your credentials.json file and place it inside the credentials folder.
 
-Run the Agent
+# Run the Agent
 
-python gmail_agent.py
+python main.py
 
-🛠 Usage
+# 🛠 Usage
 
 When you run the program, you’ll see options like:
 
@@ -66,7 +66,7 @@ Select 2 to compose a new email manually or let AI generate one for you.
 
 Select 3 to exit the program.
 
-📊 Tech Stack
+# 📊 Tech Stack
 
 Python 3
 
@@ -80,7 +80,7 @@ Machine Learning (Spam Detection)
 
 AI Text Generation (for replies & email writing)
 
-🌟 Future Enhancements
+# 🌟 Future Enhancements
 
 📎 Add image attachments in emails.
 
@@ -92,11 +92,14 @@ AI Text Generation (for replies & email writing)
 
 Contributions are welcome! Feel free to fork the repo, open issues, or submit PRs.
 
-📜 License
+# 📜 License
 
 This project is licensed under the MIT License – free to use and modify.
 
-👤 Author
+# 👤 Author
 
 Sahil Arora 
+
+# Git profile
+url:https://github.com/sahilarora-1
 
