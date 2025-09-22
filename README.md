@@ -26,19 +26,14 @@ An intelligent email assistant that automates inbox management, reply generation
 
 ✨ AI-Powered Email Writing – Provide just the recipient, subject, tone, or special instructions, and let the agent auto-generate professional emails.
 
-📂 Project Structure
-📦 email-agent
- ┣ 📜 main_agent.py     # Main script
- ┣ 📜 requirements.txt   # Dependencies
- ┣ 📜 README.md          # Project documentation
- ┗ 📂 credentials        # Google API credentials
+
 
 ⚙️ Setup & Installation
 
 Clone the Repository
 
-git clone https://github.com/your-username/email-agent.git
-cd email-agent
+git clone https://github.com/sahilarora-1/Gmail_Management_Agent.git
+cd Gmail_Management_Agent
 
 
 Install Dependencies
@@ -48,8 +43,7 @@ pip install -r requirements.txt
 
 Set Up Google API Credentials
 
-Enable the Gmail API and Google Calendar API from Google Cloud Console
-.
+Enable the Gmail API and Google Calendar API from Google Cloud Console 
 
 Download your credentials.json file and place it inside the credentials folder.
 
@@ -78,6 +72,8 @@ Python 3
 
 Gmail API
 
+OPENAI API
+
 Google Calendar API
 
 Machine Learning (Spam Detection)
@@ -102,4 +98,5 @@ This project is licensed under the MIT License – free to use and modify.
 
 👤 Author
 
-Your Name
+Sahil Arora 
+
