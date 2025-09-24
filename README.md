@@ -16,6 +16,8 @@ An intelligent email assistant that automates inbox management, reply generation
 
 ✍️ Manual Email Composition – Compose and send emails directly from the agent.
 
+📤 Mass Email Feature – Send customized emails to multiple recipients efficiently.
+
 📅 Google Calendar Integration – Auto-books events mentioned in emails, prevents double bookings.
 
 🖊 Custom Signatures – Add your name, role, and signature to outgoing emails.
@@ -55,16 +57,20 @@ python main.py
 
 When you run the program, you’ll see options like:
 
+=== AI Gmail Agent ===
 1: Reply to incoming emails
-2: Compose a new email (manual or AI-generated)
-3: Exit
+2: Compose a new email
+3: Send mass email
+4: Exit
 
 
 Select 1 to fetch, summarize, and reply to unread emails.
 
 Select 2 to compose a new email manually or let AI generate one for you.
 
-Select 3 to exit the program.
+Select 3 to send mass email – Send emails to multiple recipients at once
+
+Select 4 to exit the program.
 
 # 📊 Tech Stack
 
