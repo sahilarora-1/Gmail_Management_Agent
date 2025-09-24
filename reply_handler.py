@@ -1,8 +1,8 @@
+# reply_handler.py
 from openai import OpenAI
 import os
 import base64
 from email.utils import parseaddr
-from info_of_sender import choose_signature  # Import signature logic
 
 # ------------------------
 # Setup OpenAI client
@@ -27,9 +27,7 @@ def normalize_email(email):
 # Clean AI-generated draft
 # ------------------------
 def clean_ai_draft(draft):
-    """
-    Removes greetings, subject lines, and AI-generated signatures from draft.
-    """
+    """Removes greetings, subject lines, and AI-generated signatures from draft."""
     lines = draft.splitlines()
     cleaned = []
 
@@ -37,17 +35,13 @@ def clean_ai_draft(draft):
         line_strip = line.strip()
         if not line_strip:
             continue
-        # Skip AI-generated greetings
         if line_strip.lower().startswith("dear "):
             continue
-        # Skip AI-generated subject lines
         if line_strip.lower().startswith("subject:"):
             continue
-        # Skip AI-generated signatures
         if line_strip.lower() in ["best regards,", "regards,", "sincerely,", "thank you,"]:
             continue
         cleaned.append(line_strip)
-
     return "\n".join(cleaned)
 
 # ------------------------
@@ -87,7 +81,7 @@ Reply:
         return None
 
 # ------------------------
-# Send email
+# Send email via Gmail API
 # ------------------------
 def confirm_and_send(service, to_email, subject, body):
     from email.mime.text import MIMEText
@@ -105,7 +99,7 @@ def confirm_and_send(service, to_email, subject, body):
         print(f"❌ Error sending email: {e}")
 
 # ------------------------
-# Handle incoming email
+# Handle individual incoming email (interactive)
 # ------------------------
 def handle_email(service, email_data):
     sender = email_data["sender"]
@@ -157,18 +151,13 @@ def handle_email(service, email_data):
     print(reply_cleaned)
     print("--------------------------")
 
-    # Add user signature
-    signature_template = choose_signature()  # May contain placeholders {name}, {position}, {contact}
-    signature_info = {
-        "name": "Sahil Arora",
-        "position": "Team Head",
-        "contact": "sahil@example.com"
-    }
-    signature = signature_template.format(
-        name=signature_info["name"],
-        position=signature_info["position"],
-        contact=signature_info["contact"]
-    )
+    # Ask user for signature interactively
+    name = input("Enter your name for signature: ").strip() or "Your Name"
+    designation = input("Enter your designation: ").strip() or ""
+    company = input("Enter your company: ").strip() or ""
+    phone = input("Enter your phone/email for signature: ").strip() or ""
+
+    signature = f"{name}\n{designation}\n{company}\n{phone}".strip()
 
     # Extract recipient name
     recipient_name = parseaddr(sender)[0] or "there"
@@ -186,3 +175,29 @@ def handle_email(service, email_data):
         confirm_and_send(service, sender_email, subject, final_reply)
     else:
         print("❌ Reply discarded.")
+
+# ------------------------
+# Generate AI reply for mass email (auto signature from JSON)
+# ------------------------
+def generate_ai_reply_for_mass(recipient_name, instructions, subject):
+    prompt = f"""
+You are a professional email assistant.
+
+Recipient: {recipient_name}
+Subject: {subject}
+
+Instructions / specifications: {instructions if instructions else 'Default professional tone'}
+
+Write a polite, engaging, professional email. Include proper greetings and closing.
+Do NOT include any signature — the signature will be added later manually.
+"""
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.4,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"❌ Error generating AI reply: {e}")
+        return instructions  # fallback to default

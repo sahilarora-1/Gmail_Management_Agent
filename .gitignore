@@ -17,4 +17,9 @@ __pycache__/
 #pkl files
 spam_model.pkl
 vectorizer.pkl
-
+#csv files
+dummy_emails.csv
+#personal info
+sender_info.json
+# email_csv
+dummy_emails.csv
