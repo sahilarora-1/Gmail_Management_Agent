@@ -1,24 +1,23 @@
-# main.py
 import os
 import re
 import time
 import json
 import base64
 import socket
+from datetime import datetime
 from email.mime.text import MIMEText
-from email.utils import parseaddr
-
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-# Project imports
+# --- Project Imports ---
 from spam_classifier import is_spam
 from reply_handler import handle_email
 from compose_email import compose_email_flow
 from calender_integration import process_email_for_calendar
-from mass_email import send_mass_email  # Mass email handles AI replies & signatures
+from mass_email import send_mass_email
+from send_daily_report import send_daily_report , schedule_daily_report  # ✅ Linked module
 
 # ------------------------
 # Config
@@ -55,9 +54,9 @@ def mark_as_replied(email_id: str):
 # ------------------------
 try:
     socket.create_connection(("gmail.googleapis.com", 443), timeout=10)
-    print("Connection successful to Gmail API host.")
+    print("✅ Connection successful to Gmail API host.")
 except Exception as e:
-    print("Connection test failed:", e)
+    print("⚠️ Connection test failed:", e)
 
 
 # ------------------------
@@ -191,7 +190,7 @@ if __name__ == "__main__":
     try:
         service, gmail_sender = authenticate_gmail()
     except Exception as e:
-        print("Authentication failed:", e)
+        print("❌ Authentication failed:", e)
         raise SystemExit(1)
 
     # Load sender info
@@ -200,7 +199,7 @@ if __name__ == "__main__":
             sender_info = json.load(f)
         sender_info["email"] = gmail_sender
     except Exception as e:
-        print(f"Failed to load sender_info.json: {e}")
+        print(f"⚠️ Failed to load sender_info.json: {e}")
         sender_info = {
             "name": "Sahil Arora",
             "email": gmail_sender,
@@ -209,20 +208,24 @@ if __name__ == "__main__":
             "phone": ""
         }
 
-    print(f"Authenticated as: {gmail_sender}")
+    print(f"✅ Authenticated as: {gmail_sender}")
+
+    # Start the automatic daily report scheduler
+    schedule_daily_report(service, gmail_sender)
 
     while True:
-        print("\n=== AI Gmail Agent ===")
+        print("\n=== 🤖 AI Gmail Agent ===")
         print("1: Reply to incoming emails")
         print("2: Compose a new email")
         print("3: Send mass email")
         print("4: Exit")
+        print("5: Send daily report manually")
         choice = input("Select an option: ").strip()
 
         if choice == "1":
             emails = fetch_emails(service, n=5)
             if not emails:
-                print("No emails to process.")
+                print("No new emails to process.")
                 continue
             for email_data in emails:
                 print(f"\n📧 Processing email from {email_data['sender']} with subject: {email_data['subject']}")
@@ -230,7 +233,7 @@ if __name__ == "__main__":
                     handle_email(service, email_data)
                     mark_as_replied(email_data["id"])
                 except Exception as e:
-                    print(f"Error handling email {email_data['id']}: {e}")
+                    print(f"❌ Error handling email {email_data['id']}: {e}")
                 try:
                     process_email_for_calendar(
                         email_data["body"],
@@ -238,25 +241,26 @@ if __name__ == "__main__":
                         email_subject=email_data["subject"]
                     )
                 except Exception as e:
-                    print(f"Calendar integration error: {e}")
+                    print(f"⚠️ Calendar integration error: {e}")
 
         elif choice == "2":
             try:
-                # Compose single email interactively
-                compose_email_flow(service)  # should ask for signature info
+                compose_email_flow(service)
             except Exception as e:
-                print(f"Error in compose flow: {e}")
+                print(f"❌ Error in compose flow: {e}")
 
         elif choice == "3":
             try:
-                # Mass email: signature fetched automatically from sender_info.json
                 send_mass_email(service, sender_info)
             except Exception as e:
-                print(f"Error running mass email flow: {e}")
+                print(f"❌ Error running mass email flow: {e}")
 
         elif choice == "4":
-            print("Exiting agent. Goodbye.")
+            print("👋 Exiting AI Agent. Goodbye!")
             break
 
+        elif choice == "5":
+            send_daily_report(service, gmail_sender)
+
         else:
-            print("Invalid choice. Try again.")
+            print("⚠️ Invalid choice. Try again.")

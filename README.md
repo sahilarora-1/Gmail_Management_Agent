@@ -69,6 +69,7 @@ Select 1 to fetch, summarize, and reply to unread emails.
 Select 2 to compose a new email manually or let AI generate one for you.
 
 Select 3 to send mass email – Send emails to multiple recipients at once
+(To use mass email sending option add a csv file in the Gmail_agent folder)
 
 Select 4 to exit the program.
 
