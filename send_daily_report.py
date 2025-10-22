@@ -71,10 +71,13 @@ def generate_email_body(store_name, pdf_path):
     {pdf_text}
     ---
 
-    Based on this data, write a concise, professional daily report email.
     Highlight key sales trends, performance metrics, or alerts if visible.
-    Conclude by saying the detailed report is attached and can also be viewed
-    in the RetailEye app.
+    - Include a section titled 'Report:' summarizing the store's performance.
+    - Include a section titled 'Suggestions:' providing actionable recommendations to improve sales performance.
+    - Do NOT use Markdown or formatting characters (like *, **, #).
+    - Keep formatting clean with clear newlines between sections.
+    - Do NOT include any personal signature; just end with a polite closing such as 'Best regards' or 'Thank you'.
+    - Keep it plain text, not formatted for HTML or Markdown.
     """
 
     try:
